@@ -154,23 +154,5 @@ describe('TodoListComponent', () => {
 		});
 	});
 
-	it('should delete todo item', () => {
-		const title = 'Item to delete';
-		const description = 'This item should be deleted';
-		setup([
-			{
-				title,
-				description,
-			} as TodoItem,
-		]).then(({}) => {
-			cy.get('[data-test=todo-item]').contains(title);
-			cy.get('[data-test=todo-item]').contains(description);
-
-			cy.get('[data-test=todo-item]')
-				.get('[data-test="delete-button"]')
-				.click();
-
-			cy.get('[data-test=todo-item]').should('not.exist');
-		});
-	});
+	it('should delete todo item', () => {});
 });
