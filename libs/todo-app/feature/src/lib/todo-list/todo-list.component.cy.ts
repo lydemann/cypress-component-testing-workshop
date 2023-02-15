@@ -15,7 +15,6 @@ import {
 } from '@ngx-translate/core';
 import { formatDate } from '@angular/common';
 import * as transactions from 'apps/todo-service/src/assets/i18n/en-lang.json';
-import { worker } from 'libs/todo-app/domain/src/mocks/browser';
 
 class CustomLoader implements TranslateLoader {
 	getTranslation(lang: string): Observable<any> {
@@ -38,12 +37,6 @@ describe('TodoListComponent', () => {
 	}
 
 	const setup = (initTodoItems: TodoItem[] = []) => {
-		// TOOD: fix load problem
-		// worker.start({
-		// 	serviceWorker: {
-		// 		url: '/__cypress/src/mockServiceWorker.js',
-		// 	},
-		// });
 		return mount(WrapperComponent, {
 			imports: [
 				RouterTestingModule.withRoutes([...appRoutes]),
