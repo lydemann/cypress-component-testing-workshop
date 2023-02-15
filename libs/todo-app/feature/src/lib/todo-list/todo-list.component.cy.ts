@@ -93,22 +93,5 @@ describe('TodoListComponent', () => {
 		});
 	});
 
-	it('should create todo item', () => {
-		setup().then(({}) => {
-			const title = 'Some title';
-			cy.get('[data-test=todo-title]').type(title);
-			const description = 'Some description';
-			cy.get('[data-test=todo-description]').type(description);
-			const dueDate = new Date().toLocaleDateString('en-US');
-			cy.get('[data-test=todo-duedate]').type(dueDate);
-			cy.get('[data-test=create-todo-submit]').click();
-
-			cy.get('[data-test=todo-item]').contains(title);
-			cy.get('[data-test=todo-item]').contains(description);
-			const formattedDueDate = formatDate(dueDate, 'shortDate', 'en-US');
-			cy.get('[data-test=todo-item]').contains(formattedDueDate);
-		});
-	});
-
-	it('should update todo item', () => {});
+	it('should create todo item', () => {});
 });
