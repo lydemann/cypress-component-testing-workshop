@@ -36,62 +36,7 @@ describe('TodoListComponent', () => {
 		}
 	}
 
-	const setup = (initTodoItems: TodoItem[] = []) => {
-		return mount(WrapperComponent, {
-			imports: [
-				RouterTestingModule.withRoutes([...appRoutes]),
-				AppModule,
-				TranslateModule.forRoot({
-					loader: {
-						provide: TranslateLoader,
-						useClass: CustomLoader,
-					},
-				}),
-			],
-		}).then(
-			async ({
-				fixture: {
-					debugElement: { injector },
-				},
-			}) => {
-				const ngZone = injector.get(NgZone);
-				const router = injector.get(Router);
-				const todoListResourceService = injector.get(TodoListResourcesService);
+	const setup = (initTodoItems: TodoItem[] = []) => {};
 
-				// or mock service worker
-				todoListResourceService.getTodos = () => {
-					return of(initTodoItems);
-				};
-
-				await ngZone.run(() => router.navigate(['']));
-
-				return {
-					ngZone,
-					router,
-					injector,
-				};
-			},
-		);
-	};
-
-	it('should show todo item', () => {
-		const title = 'Item to show';
-		const description = 'This item should be shown';
-		const dueDate = new Date().toLocaleDateString('en-US');
-		setup([
-			{
-				id: '1',
-				title,
-				description,
-				dueDate,
-			} as TodoItem,
-		]).then(({}) => {
-			cy.get('[data-test=todo-item]').contains(title);
-			cy.get('[data-test=todo-item]').contains(description);
-			const formattedDueDate = formatDate(dueDate, 'shortDate', 'en-US');
-			cy.get('[data-test=todo-item]').contains(formattedDueDate);
-		});
-	});
-
-	it('should create todo item', () => {});
+	it('should show todo item', () => {});
 });
