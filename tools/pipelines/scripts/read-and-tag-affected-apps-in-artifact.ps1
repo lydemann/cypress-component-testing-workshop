@@ -1,7 +1,7 @@
 
 function addTagToGithubCommit {
 	param (
-			[String]$tag
+		[String]$tag
 	)
 
 	Write-Host "Tagging the release in Git";
@@ -30,22 +30,22 @@ function addTagToGithubCommit {
 	$GithubHeader = @{ "Authorization" = "Basic $GithubToken" }
 
 	Try {
-			$result = (Invoke-WebRequest $tagsUri -Method "Post" -Headers $GithubHeader -ContentType "application/json" -Body $body -UseBasicParsing).Content | ConvertFrom-Json
+		$result = (Invoke-WebRequest $tagsUri -Method "Post" -Headers $GithubHeader -ContentType "application/json" -Body $body -UseBasicParsing).Content | ConvertFrom-Json
 	}
 	Catch {
-			$errorDetail = $_
-			$errorMessage = @"
+		$errorDetail = $_
+		$errorMessage = @"
 Failed to tag git commit.
 $error
 $errorDetail
 "@
 
-			Write-Error $errorMessage -ErrorAction Continue
-			return 0
+		Write-Error $errorMessage -ErrorAction Continue
+		return 0
 	}
 
 	If ($result.name -eq $releaseNumber) {
-			Write-Host "Release tagged in git.";
+		Write-Host "Release tagged in git.";
 	}
 }
 
@@ -54,27 +54,27 @@ $errorDetail
 #Same tag should be in release definition triggers
 function addTagToBuildArtifact {
 	param (
-			[String]$tag
+		[String]$tag
 	)
 
-		 Write-Host "Creating artifact tag: $tag";
+	Write-Host "Creating artifact tag: $tag";
 	$url =
 	"$($env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)$env:SYSTEM_TEAMPROJECTID/_apis/build/builds/$($env:BUILD_BUILDID)/tags/$($tag)?api-version=2.0";
-	$headers = @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN"};
+	$headers = @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" };
 
 	Write-Host "Sending request to Azure DevOps";
 	Write-Host $url;
 
 	Try {
-			$tag = Invoke-RestMethod -Uri $url -Headers $headers -Method PUT;
-			Write-Host "Tag= $($tag| ConvertTo-Json -Depth 3)";
+		$tag = Invoke-RestMethod -Uri $url -Headers $headers -Method PUT;
+		Write-Host "Tag= $($tag| ConvertTo-Json -Depth 3)";
 	}
 	Catch {
-			$error = $_.Exception.Message;
-			$errorMessage = "Failed to tag build.$error $errorDetail";
-					Write-Error $errorMessage -ErrorAction Continue
-					return 0;
-			}
+		$error = $_.Exception.Message;
+		$errorMessage = "Failed to tag build.$error $errorDetail";
+		Write-Error $errorMessage -ErrorAction Continue
+		return 0;
+	}
 }
 
 
@@ -83,13 +83,13 @@ Write-Host "Reading and setting affected apps variable";
 
 Write-Host "Working dir is $($env:SYSTEM_DEFAULTWORKINGDIRECTORY)";
 
-# TODO: delete this and just get from previous master commit
+# TODO: delete this and just get from previous main commit
 $AffectedAppsString = Get-Content -Path "$($env:SYSTEM_DEFAULTWORKINGDIRECTORY)/dist/affected-apps.txt";
 
 Write-Host "Affected apps to tag $AffectedAppsString";
 Write-Host "##vso[task.setvariable variable=AffectedApps;]$AffectedAppsString"
 
-if(!$AffectedAppsString) {
+if (!$AffectedAppsString) {
 	Write-Host "No affected apps";
 	return;
 }

@@ -1,5 +1,5 @@
 # Finds last git hash with tag. The param Tag just has to match some part of the tag
-# TODO: use this to find last successful master build, if running this on master
+# TODO: use this to find last successful main build, if running this on main
 function FindLastGithashWithTag {
     param (
         $Tag
@@ -57,7 +57,7 @@ Write-Host "Tagging git hash in artifact: $($sourceVersion)";
 addTagToBuildArtifact -tag $sourceVersion;
 
 
-$AffectedAppsObj = Invoke-Expression 'npm run affected:apps -- --base=origin/master --head=HEAD --plain';
+$AffectedAppsObj = Invoke-Expression 'npm run affected:apps -- --base=origin/main --head=HEAD --plain';
 $AffectedAppsString = $AffectedAppsObj[4];
 
 if (!$AffectedAppsString -and $AffectedAppsString -eq "") {
