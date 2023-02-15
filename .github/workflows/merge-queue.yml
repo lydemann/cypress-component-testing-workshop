@@ -1,0 +1,24 @@
+name: Merge Queue
+on:
+  push:
+    branches: master
+  pull_request:
+    types: [labeled, unlabeled, synchronize]
+  pull_request_review:
+    types: submitted
+  check_suite:
+    types: [completed, rerequested]
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find and label automerge candidate matching the 'merge:ready' label
+        uses: lydemann/mergequeue-labeler@v0.1-beta.1
+        id: automerge_labeler
+        with:
+          label-candidate: 'merge:ready'
+          label-automerge: 'automerge'
+          order: first
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTOMERGE_GITHUB_TOKEN }}
+      - run: "echo 'PR ready for automerge: ${{ steps.automerge_labeler.outputs.pull_request }}'"

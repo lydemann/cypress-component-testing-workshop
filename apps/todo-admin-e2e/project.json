@@ -1,0 +1,32 @@
+{
+	"name": "todo-admin-e2e",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"projectType": "application",
+	"prefix": "",
+	"targets": {
+		"e2e": {
+			"executor": "@nrwl/cypress:cypress",
+			"options": {
+				"cypressConfig": "apps/todo-admin-e2e/cypress.json",
+				"tsConfig": "apps/todo-admin-e2e/tsconfig.e2e.json",
+				"devServerTarget": "todo-admin:serve"
+			},
+			"configurations": {
+				"production": {
+					"devServerTarget": "todo-admin:serve:production"
+				}
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": [
+					"apps/todo-admin-e2e/**/*.ts",
+					"apps/todo-admin-e2e/**/*.html"
+				]
+			}
+		}
+	},
+	"tags": ["type:e2e"]
+}

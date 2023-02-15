@@ -1,0 +1,28 @@
+{
+	"name": "util-feature-toggle",
+	"$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "libs/shared/util/util-feature-toggle/src",
+	"projectType": "library",
+	"generators": {},
+	"targets": {
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": [
+					"libs/shared/util/util-feature-toggle/**/*.ts",
+					"libs/shared/util/util-feature-toggle/**/*.html"
+				]
+			}
+		},
+		"test": {
+			"executor": "@angular-devkit/build-angular:karma",
+			"options": {
+				"main": "libs/shared/util/util-feature-toggle/src/test.ts",
+				"tsConfig": "libs/shared/util/util-feature-toggle/tsconfig.spec.json",
+				"karmaConfig": "libs/shared/util/util-feature-toggle/karma.conf.js"
+			}
+		}
+	},
+	"tags": ["scope:shared", "type:util"]
+}
