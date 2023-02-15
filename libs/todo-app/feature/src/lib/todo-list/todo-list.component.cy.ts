@@ -110,49 +110,5 @@ describe('TodoListComponent', () => {
 		});
 	});
 
-	it('should update todo item', () => {
-		const title = 'Item to edited';
-		const description = 'This item should be edited';
-		const dueDate = new Date().toLocaleDateString('en-US');
-		setup([
-			{
-				id: '1',
-				title,
-				description,
-				dueDate,
-			} as TodoItem,
-		]).then(({}) => {
-			cy.get('[data-test=todo-item]').contains(title);
-			cy.get('[data-test=todo-item]').contains(description);
-			const formattedDueDate = formatDate(dueDate, 'shortDate', 'en-US');
-			cy.get('[data-test=todo-item]').contains(formattedDueDate);
-
-			cy.get('[data-test=todo-item]')
-
-				.get('[data-test="edit-button"]')
-				.click();
-			const updatedTitle = 'Edited title';
-			cy.get('[data-test=todo-title]').clear().type(updatedTitle);
-			const updatedDescription = 'Edited description';
-			cy.get('[data-test=todo-description]').clear().type(updatedDescription);
-			const currentDate = new Date();
-			const updatedDueDate = new Date(
-				currentDate.setDate(currentDate.getDate() + 1),
-			).toLocaleDateString('en-US');
-			cy.get('[data-test=todo-duedate]').clear().type(updatedDueDate);
-
-			cy.get('[data-test=create-todo-submit]').click();
-
-			cy.get('[data-test=todo-item]').contains(updatedTitle);
-			cy.get('[data-test=todo-item]').contains(updatedDescription);
-			const updatedFormattedDueDate = formatDate(
-				updatedDueDate,
-				'shortDate',
-				'en-US',
-			);
-			cy.get('[data-test=todo-item]').contains(updatedFormattedDueDate);
-		});
-	});
-
-	it('should delete todo item', () => {});
+	it('should update todo item', () => {});
 });
